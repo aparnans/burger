@@ -1,6 +1,12 @@
-<h2>main page</h2>
+{{> header }}
 
-{{#each burgers}}
-    <p>{{burger_name}}</p>
-    <p>{{devoured}}</p>
-{{/each}}
+<div class="container content">
+    <h1>Burger App</h1>
+
+    {{> addBurger }}
+    
+    <div class="content-burger">
+        {{#each result}} {{> displayBurger }}{{/each}}
+    </div>
+
+</div>

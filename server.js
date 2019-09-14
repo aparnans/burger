@@ -1,23 +1,29 @@
-const express =  require("express");
-const exhb = require('express-handlebars');
+// Importing dependencies
+const express = require("express");
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
-const routes = require("./routes/apiroutes");
+const exphbs = require("express-handlebars");
 
+// Importing files
+const routes = require("./routes/handlers");
+
+const PORT = process.env.PORT || 9001;
 const app = express();
-const PORT = 8090;
 
-// configure app to use the packages
+app.use(express.static(process.cwd() + "/public")); // serving static files
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
-app.use("/", routes);
 
-app.engine("handlebars",exhb({defaultlayout: "main"}));
 
+// Configure Express Handlebars
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 
-app.listen(PORT, function(){
-    console.log("server is listening on  http://localhost:" +PORT);
-})
+app.use("/", routes);
+
+app.listen(PORT, () => {
+    console.log('Server is starting at PORT ${PORT}');
+});
