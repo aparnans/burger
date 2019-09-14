@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
 
 // Importing files
-const routes = require("./routes/handlers");
+const routes = require("./routes/apiroutes");
 
 const PORT = process.env.PORT || 9001;
 const app = express();
