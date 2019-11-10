@@ -1,42 +1,24 @@
-const connection = require("../config/connection");
+// Import the ORM to create functions that will interact with the database.
+var orm = require("../config/orm.js");
 
-const orm = {
-    selectAll: function (cb) {
-        connection.query("SELECT * FROM restaurant_burger", function (err, data) {
-            if (err) cb(err, null);
-            cb(null, data);
-        });
-    },
-    selectAllBy: function(condition, value, cb) {
-        const sqlQuery = `SELECT * FROM restaurant_burger WHERE ${condition } = ${value}`;
-        connection.query(sqlQuery, function (err, data) {
-            if (err) cb(err, null);
-            cb(null, data)
-        });
-    },
-    insertOne: function (burgerName, cb) {
-        const sqlQuery = `INSERT INTO restaurant_burger(burger_name) VALUES('${burgerName}')`;
-        connection.query(sqlQuery, function (err, data) {
-            if (err) cb(err, null);
-            cb(null, data);
-        });
-    },
-
-    updateOne: function (condition, id, cb) {
-        const sqlQuery = `UPDATE restaurant_burger SET is_favorite = ${condition} WHERE id = ${id}`;
-        connection.query(sqlQuery, function (err, data) {
-            if (err) cb(err, null);
-            cb(null, data)
-        });
-    },
-
-    deleteOne: function(id, cb) {
-        const sqlQuery = `DELETE FROM restaurant_burger WHERE id = ${id}`;
-        connection.query(sqlQuery, function (err, data) {
-            if (err) cb(err, null);
-            cb(null, data)
-        });
-    }
+var burger = {
+  all: function(cb) {
+    orm.all("burgers", function(res) {
+      cb(res);
+    });
+  },
+  // The variables cols and vals are arrays.
+  create: function(cols, vals, cb) {
+    orm.create("burgers", cols, vals, function(res) {
+      cb(res);
+    });
+  },
+  update: function(objColVals, condition, cb) {
+    orm.update("burgers", objColVals, condition, function(res) {
+      cb(res);
+    });
+  }
 };
 
-module.exports = orm;
+// Export the database functions for the controller (catsController.js).
+module.exports = burger;
